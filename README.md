@@ -1,0 +1,2 @@
+# nomobot
+Automation for Lawyers

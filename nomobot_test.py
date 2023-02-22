@@ -46,6 +46,7 @@ def run_selenium_cycle(data: pd.DataFrame) -> pd.DataFrame:
                 time.sleep(15)
                 scraped_number = browser.find_element(By.CSS_SELECTOR,
                                                       '#pc1\:ldoTable\:\:db > table > tbody > tr > td:nth-child(2) > div > table > tbody > tr > td:nth-child(1)')
+                time.sleep(1)
                 result = browser.find_element(By.CSS_SELECTOR,
                                               '#pc1\:ldoTable\:\:db > table > tbody > tr > td:nth-child(2) > div > table > tbody > tr > td:nth-child(7)')
                 condition = False
@@ -53,8 +54,8 @@ def run_selenium_cycle(data: pd.DataFrame) -> pd.DataFrame:
                 time.sleep(10)
 
         data_out.append([row['Court'], row['GAK'], row['Year'], scraped_number.text, result.text, date.today()])
-        browser.execute_script("location.reload()")
-        browser.get("https://extapps.solon.gov.gr/mojwp/faces/TrackLdoPublic")
+        # browser.execute_script("location.reload()")
+        # browser.get("https://extapps.solon.gov.gr/mojwp/faces/TrackLdoPublic")
     data_out_df = pd.DataFrame(data_out, columns=['Court', 'GAK', 'Year', 'Scraped_GAK', 'Result', 'Date'])
     # data_out_df.to_csv('./data/data_out.csv', index=False)
     time.sleep(1)

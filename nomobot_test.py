@@ -25,12 +25,12 @@ def run_selenium_cycle(data: pd.DataFrame) -> pd.DataFrame:
         court.send_keys(Keys.COMMAND + 'a' + Keys.DELETE)
         court.send_keys(Keys.CONTROL + 'a' + Keys.DELETE)
         court.send_keys(str(row['Court']) + Keys.RETURN)
-        time.sleep(0.1)
+        time.sleep(1)
         gak = browser.find_element(By.XPATH, '//*[@id="it1::content"]')
         gak.send_keys(Keys.COMMAND + 'a' + Keys.DELETE)
         gak.send_keys(Keys.CONTROL + 'a' + Keys.DELETE)
         gak.send_keys(str(row['GAK']) + Keys.RETURN)
-        time.sleep(0.1)
+        time.sleep(1)
         year = browser.find_element(By.XPATH, '//*[@id="it2::content"]')
         year.send_keys(Keys.COMMAND + 'a' + Keys.DELETE)
         year.send_keys(Keys.CONTROL + 'a' + Keys.DELETE)
@@ -43,14 +43,14 @@ def run_selenium_cycle(data: pd.DataFrame) -> pd.DataFrame:
         condition = True
         while condition:
             try:
-                time.sleep(8)
+                time.sleep(15)
                 scraped_number = browser.find_element(By.CSS_SELECTOR,
                                                       '#pc1\:ldoTable\:\:db > table > tbody > tr > td:nth-child(2) > div > table > tbody > tr > td:nth-child(1)')
                 result = browser.find_element(By.CSS_SELECTOR,
                                               '#pc1\:ldoTable\:\:db > table > tbody > tr > td:nth-child(2) > div > table > tbody > tr > td:nth-child(7)')
                 condition = False
             except:
-                time.sleep(5)
+                time.sleep(10)
 
         data_out.append([row['Court'], row['GAK'], row['Year'], scraped_number.text, result.text, date.today()])
         browser.execute_script("location.reload()")

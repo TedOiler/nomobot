@@ -3,19 +3,21 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
+import os
 import time
 from datetime import date
 import pandas as pd
 
-# data = pd.read_csv('data/data_in.csv')
-
 
 def run_selenium_cycle(data: pd.DataFrame) -> pd.DataFrame:
-    browser = webdriver.Chrome(ChromeDriverManager().install())
+    op = webdriver.ChromeOptions()
+    op.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+    op.add_argument("--headless")
+    op.add_argument("--no-sandbox")
+    op.add_argument("--disable-dev-sh-usage")
+    browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=op)
     # browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+
     browser.get("https://extapps.solon.gov.gr/mojwp/faces/TrackLdoPublic")
     data_out = []
     for _, row in data.iterrows():
@@ -45,7 +47,7 @@ def run_selenium_cycle(data: pd.DataFrame) -> pd.DataFrame:
                 scraped_number = browser.find_element(By.CSS_SELECTOR,
                                                       '#pc1\:ldoTable\:\:db > table > tbody > tr > td:nth-child(2) > div > table > tbody > tr > td:nth-child(1)')
                 result = browser.find_element(By.CSS_SELECTOR,
-                                            '#pc1\:ldoTable\:\:db > table > tbody > tr > td:nth-child(2) > div > table > tbody > tr > td:nth-child(7)')
+                                              '#pc1\:ldoTable\:\:db > table > tbody > tr > td:nth-child(2) > div > table > tbody > tr > td:nth-child(7)')
                 condition = False
             except:
                 time.sleep(5)

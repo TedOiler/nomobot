@@ -1,5 +1,4 @@
 mkdir -p ~/.streamlit/
-sudo apt-get install -y chromium-browser
 
 echo "\
 [general]\n\

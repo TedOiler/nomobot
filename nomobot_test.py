@@ -45,7 +45,9 @@ def run_selenium_cycle(data: pd.DataFrame) -> pd.DataFrame:
         while condition:
             try:
                 results_selector = '#pc1\:ldoTable\:\:db > table > tbody > tr > td:nth-child(2) > div > table > tbody > tr > td:nth-child(7)'
-                result = browser.find_element(By.CSS_SELECTOR, results_selector).text
+                results_xpath = '//*[@id="pc1:ldoTable::db"]/table/tbody/tr/td[2]/div/table/tbody/tr/td[7]'
+                # result = browser.find_element(By.CSS_SELECTOR, results_selector).text
+                result = browser.find_element(By.XPATH, results_xpath).text
                 time.sleep(1)
                 scraper_number_selector = '#pc1\:ldoTable\:\:db > table > tbody > tr > td:nth-child(2) > div > table > tbody > tr > td:nth-child(1)'
                 scraped_number = browser.find_element(By.CSS_SELECTOR, scraper_number_selector).text

@@ -15,6 +15,7 @@ def run_selenium_cycle(data: pd.DataFrame) -> pd.DataFrame:
     op.add_argument("--headless")
     op.add_argument("--no-sandbox")
     op.add_argument("--disable-dev-sh-usage")
+    op.add_argument("--start-maximized")
     browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=op)
     # browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 
@@ -43,14 +44,16 @@ def run_selenium_cycle(data: pd.DataFrame) -> pd.DataFrame:
         condition = True
         while condition:
             try:
-                result = browser.find_element(By.CSS_SELECTOR, '#pc1\:ldoTable\:\:db > table > tbody > tr > td:nth-child(2) > div > table > tbody > tr > td:nth-child(7)')
+                results_selector = '#pc1\:ldoTable\:\:db > table > tbody > tr > td:nth-child(2) > div > table > tbody > tr > td:nth-child(7)'
+                result = browser.find_element(By.CSS_SELECTOR, results_selector).text
                 time.sleep(1)
-                scraped_number = browser.find_element(By.CSS_SELECTOR, '#pc1\:ldoTable\:\:db > table > tbody > tr > td:nth-child(2) > div > table > tbody > tr > td:nth-child(1)')
+                scraper_number_selector = '#pc1\:ldoTable\:\:db > table > tbody > tr > td:nth-child(2) > div > table > tbody > tr > td:nth-child(1)'
+                scraped_number = browser.find_element(By.CSS_SELECTOR, scraper_number_selector).text
                 condition = False
             except:
                 time.sleep(10)
 
-        data_out.append([row['Court'], row['GAK'], row['Year'], scraped_number.text, result.text, date.today()])
+        data_out.append([row['Court'], row['GAK'], row['Year'], scraped_number, result, date.today()])
         # browser.execute_script("location.reload()")
         # browser.get("https://extapps.solon.gov.gr/mojwp/faces/TrackLdoPublic")
     data_out_df = pd.DataFrame(data_out, columns=['Court', 'GAK', 'Year', 'Scraped_GAK', 'Result', 'Date'])

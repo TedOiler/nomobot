@@ -15,7 +15,6 @@ def run_selenium_cycle(data: pd.DataFrame) -> pd.DataFrame:
     op.add_argument("--headless")
     op.add_argument("--no-sandbox")
     op.add_argument("--disable-dev-sh-usage")
-    op.add_argument("--window-size=1920,1080")
     browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=op)
     # browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 

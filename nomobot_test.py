@@ -15,7 +15,7 @@ def run_selenium_cycle(data: pd.DataFrame) -> pd.DataFrame:
     op.add_argument("--headless")
     op.add_argument("--no-sandbox")
     op.add_argument("--disable-dev-sh-usage")
-    op.add_argument("--start-maximized")
+    op.add_argument("--window-size=1920,1080")
     browser = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=op)
     # browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 
@@ -41,16 +41,18 @@ def run_selenium_cycle(data: pd.DataFrame) -> pd.DataFrame:
         selector = '#pc1\:ldoTable\:\:db > table > tbody > tr > td:nth-child(2) > div > table > tbody > tr > td:nth-child(1) > span'
         gak_year = str(row['GAK'])+'/'+str(row['Year'])
         WebDriverWait(browser, 20).until(lambda browser: browser.find_element(By.CSS_SELECTOR, selector).text == gak_year)
+
         condition = True
         while condition:
             try:
-                results_selector = '#pc1\:ldoTable\:\:db > table > tbody > tr > td:nth-child(2) > div > table > tbody > tr > td:nth-child(7)'
-                results_xpath = '//*[@id="pc1:ldoTable::db"]/table/tbody/tr/td[2]/div/table/tbody/tr/td[7]'
-                # result = browser.find_element(By.CSS_SELECTOR, results_selector).text
-                result = browser.find_element(By.XPATH, results_xpath).text
-                time.sleep(1)
                 scraper_number_selector = '#pc1\:ldoTable\:\:db > table > tbody > tr > td:nth-child(2) > div > table > tbody > tr > td:nth-child(1)'
                 scraped_number = browser.find_element(By.CSS_SELECTOR, scraper_number_selector).text
+                time.sleep(1)
+
+                results_selector = '#pc1\:ldoTable\:\:db > table > tbody > tr > td:nth-child(2) > div > table > tbody > tr > td:nth-child(7)'
+                element = WebDriverWait(browser, 20).until(EC.visibility_of_element_located((By.CSS_SELECTOR, results_selector)))
+                browser.execute_script("return arguments[0].scrollIntoView(true);", element)
+                result = browser.find_element(By.CSS_SELECTOR, results_selector).text
                 condition = False
             except:
                 time.sleep(10)

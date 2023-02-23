@@ -43,11 +43,9 @@ def run_selenium_cycle(data: pd.DataFrame) -> pd.DataFrame:
         condition = True
         while condition:
             try:
-                scraped_number = browser.find_element(By.CSS_SELECTOR,
-                                                      '#pc1\:ldoTable\:\:db > table > tbody > tr > td:nth-child(2) > div > table > tbody > tr > td:nth-child(1)')
+                result = browser.find_element(By.CSS_SELECTOR, '#pc1\:ldoTable\:\:db > table > tbody > tr > td:nth-child(2) > div > table > tbody > tr > td:nth-child(7)')
                 time.sleep(1)
-                result = browser.find_element(By.CSS_SELECTOR,
-                                              '#pc1\:ldoTable\:\:db > table > tbody > tr > td:nth-child(2) > div > table > tbody > tr > td:nth-child(7)')
+                scraped_number = browser.find_element(By.CSS_SELECTOR, '#pc1\:ldoTable\:\:db > table > tbody > tr > td:nth-child(2) > div > table > tbody > tr > td:nth-child(1)')
                 condition = False
             except:
                 time.sleep(10)

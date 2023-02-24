@@ -11,7 +11,8 @@ def convert_df(df):
 
 st.set_page_config(
     page_title="Nomobot",
-    page_icon='⚖️'
+    page_icon='⚖️',
+    layout="wide"
 )
 
 st.write(
